@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reservierung – MAWA Lounge</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="assets/favicon.png">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="logo">
+      <img src="assets/logo.svg" alt="MAWA Lounge Logo" />
+    </div>
+    <nav class="nav">
+      <a href="index.html">Start</a>
+      <a href="about.html">Über uns</a>
+      <a href="menu.html">Speisekarte</a>
+      <a href="gallery.html">Galerie</a>
+      <a href="events.html">Events</a>
+      <a href="reservation.html">Reservierung</a>
+      <a href="contact.html">Kontakt</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Menü öffnen" onclick="toggleNav()">☰</button>
+  </div>
+</header>
+
+<main class="section container">
+  <h1>Reservierung</h1>
+  <p>Fülle das Formular aus, um einen Tisch zu reservieren. Du erhältst eine Bestätigung per E-Mail.</p>
+
+  <form class="reservation-form" action="https://formspree.io/f/DEINE_FORMSPREE_URL" method="POST">
+    <label>Name:<br><input type="text" name="name" required></label><br>
+    <label>Telefon:<br><input type="tel" name="phone" required></label><br>
+    <label>Datum:<br><input type="date" name="date" required></label><br>
+    <label>Uhrzeit:<br><input type="time" name="time" required></label><br>
+    <label>Personenanzahl:<br><input type="number" name="people" min="1" required></label><br>
+    <label>Nachricht:<br><textarea name="message"></textarea></label><br>
+    <button type="submit" class="btn primary">Absenden</button>
+  </form>
+
+  <p id="success-message" style="display:none; color:green; font-weight:bold;">
+    Vielen Dank! Deine Reservierung wurde gesendet.
+  </p>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> MAWA Lounge · Alle Rechte vorbehalten.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+const form = document.querySelector(".reservation-form");
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  fetch(form.action, { method: "POST", body: new FormData(form) })
+    .then(() => {
+      form.style.display = "none";
+      document.getElementById("success-message").style.display = "block";
+    })
+    .catch(() => alert("Fehler beim Senden, bitte E-Mail direkt kontaktieren."));
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
